@@ -29,9 +29,7 @@ setInterval(updateProxyCache, 5 * 60 * 1000);
 
 // 📦 Endpoint: GET /proxies — отдаёт до 100 SOCKS5-прокси
 app.get('/proxies', (req, res) => {
-  if (cachedProxies.length === 0) {
-    return res.status(503).json({ error: "Прокси ещё не загружены, попробуйте позже." });
-  }
+  console.log(`[${new Date().toISOString()}] Запрос /proxies, прокси в кеше: ${cachedProxies.length}`);
   res.json(cachedProxies.slice(0, 100));
 });
 
