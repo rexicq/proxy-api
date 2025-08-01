@@ -55,6 +55,7 @@ async function fetchProxies() {
     const results = await Promise.all(checkPromises);
     cachedProxies = results.filter(Boolean);
     lastFetchTime = now;
+    console.log(cachedProxies)
     return cachedProxies;
   } catch (err) {
     console.error("Ошибка при загрузке прокси:", err);
