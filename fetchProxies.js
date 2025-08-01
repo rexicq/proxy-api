@@ -10,7 +10,7 @@ function getProxiesFromProxyLists() {
   protocols: ['socks5'],
   timeout: 10000,
   // Явно указываем источники (без checkerproxy)
-  sources: ['freeproxylists', 'proxydb', 'proxyscrape', 'sslproxies']
+  sources: ['freeproxylists', 'proxydb',  'sslproxies']
 });
 
     gettingProxies.on('data', (proxiesBatch) => {
