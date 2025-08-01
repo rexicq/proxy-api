@@ -1,15 +1,24 @@
 const axios = require('axios');
 
 module.exports = async function fetchProxies() {
-  const url = 'https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks5&timeout=2000&country=all&ssl=all&anonymity=all';
+  const url = 'https://proxylist.geonode.com/api/proxy-list?protocols=socks5&limit=100&page=1';
 
-  const { data } = await axios.get(url);
-  const proxies = data
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line && line.includes(':'))
-    .slice(0, 100) // максимум 100
-    .map(addr => `socks5://${addr}`);
+  try {
+    const { data } = await axios.get(url);
 
-  return proxies;
+    const proxies = (data.data || [])
+      .map(proxy => {
+        if (proxy.ip && proxy.port) {
+          return `socks5://${proxy.ip}:${proxy.port}`;
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    console.log('Fetched from GeoNode:', proxies);
+    return proxies;
+  } catch (err) {
+    console.error('Error fetching from GeoNode:', err.message);
+    return [];
+  }
 };
