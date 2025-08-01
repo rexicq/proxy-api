@@ -1,36 +1,41 @@
 const express = require('express');
-const fetchProxies = require('./fetchProxies');
+const fetchProxies = require('./fetchProxies'); // функция из fetchProxies.js
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 let cachedProxies = [];
 
-// Функция для обновления кэша
+// 🔁 Обновление кэша SOCKS5-прокси
 async function updateProxyCache() {
+  console.log("🌐 Обновление списка прокси...");
   try {
-    const newProxies = await fetchProxies();
-    if (newProxies.length > 0) {
-      cachedProxies = newProxies;
-      console.log(`✅ Обновлено ${newProxies.length} прокси`);
+    const proxies = await fetchProxies(100); // запрашиваем до 100 работающих
+    if (proxies.length > 0) {
+      cachedProxies = proxies;
+      console.log(`✅ Кэш обновлён: ${proxies.length} прокси`);
     } else {
       console.warn("⚠️ Получен пустой список — кэш не обновлён");
     }
   } catch (err) {
-    console.error("❌ Ошибка при обновлении прокси:", err.message);
+    console.error("❌ Ошибка обновления прокси:", err.message);
   }
 }
 
-// Обновляем кэш при запуске
+// 🚀 Обновляем кэш при запуске
 updateProxyCache();
 
-// Затем — обновляем каждые 5 минут
+// ⏰ Обновляем каждые 5 минут
 setInterval(updateProxyCache, 5 * 60 * 1000);
 
-// Endpoint
+// 📦 Endpoint: GET /proxies — отдаёт до 100 SOCKS5-прокси
 app.get('/proxies', (req, res) => {
-  res.json(cachedProxies.slice(0, 100)); // отдаем до 100 прокси
+  if (cachedProxies.length === 0) {
+    return res.status(503).json({ error: "Прокси ещё не загружены, попробуйте позже." });
+  }
+  res.json(cachedProxies.slice(0, 100));
 });
 
+// ▶️ Запуск сервера
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Proxy API сервер запущен: http://localhost:${PORT}`);
 });
