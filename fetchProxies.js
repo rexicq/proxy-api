@@ -1,6 +1,6 @@
 const axios = require("axios");
 const net = require("net");
-const pLimit = require("p-limit");
+const pLimit = require('p-limit').default;
 
 const PROXY_SOURCE_URL = "https://proxylist.geonode.com/api/proxy-list?protocols=socks5&limit=100&page=1&sort_by=lastChecked&sort_type=desc";
 
