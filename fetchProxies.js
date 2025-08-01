@@ -1,4 +1,4 @@
-onst ProxyLists = require('proxy-lists');
+const ProxyLists = require('proxy-lists');
 const { SocksProxyAgent } = require('socks-proxy-agent');
 const fetch = require('node-fetch');
 
