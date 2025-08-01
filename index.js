@@ -7,17 +7,18 @@ let cachedProxies = [];
 
 // 🔁 Обновление кэша SOCKS5-прокси
 async function updateProxyCache() {
-  console.log("🌐 Обновление списка прокси...");
   try {
-    const proxies = await fetchProxies(100); // запрашиваем до 100 работающих
-    if (proxies.length > 0) {
-      cachedProxies = proxies;
-      console.log(`✅ Кэш обновлён: ${proxies.length} прокси`);
+    console.log(`[${new Date().toISOString()}] Начинаем обновлять кэш прокси`);
+    const newProxies = await fetchProxies();
+    console.log(`[${new Date().toISOString()}] Получено прокси: ${newProxies.length}`);
+    if (newProxies.length > 0) {
+      cachedProxies = newProxies;
+      console.log(`[${new Date().toISOString()}] Кэш обновлен`);
     } else {
-      console.warn("⚠️ Получен пустой список — кэш не обновлён");
+      console.warn(`[${new Date().toISOString()}] Получен пустой список — кэш не обновлён`);
     }
   } catch (err) {
-    console.error("❌ Ошибка обновления прокси:", err.message);
+    console.error(`[${new Date().toISOString()}] Ошибка при обновлении прокси: ${err.message}`, err);
   }
 }
 
