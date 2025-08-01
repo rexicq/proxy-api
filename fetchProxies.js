@@ -7,10 +7,11 @@ function getProxiesFromProxyLists() {
   return new Promise((resolve, reject) => {
     const proxies = [];
     const gettingProxies = ProxyLists.getProxies({
-      protocols: ['socks5'],
-      countries: ['us', 'de', 'fr', 'nl', 'ru', 'ca', 'gb'],
-      timeout: 10000
-    });
+  protocols: ['socks5'],
+  timeout: 10000,
+  // Явно указываем источники (без checkerproxy)
+  sources: ['freeproxylists', 'proxydb', 'proxyscrape', 'sslproxies']
+});
 
     gettingProxies.on('data', (proxiesBatch) => {
       proxiesBatch.forEach(proxy => {
