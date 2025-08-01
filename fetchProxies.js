@@ -9,7 +9,7 @@ let lastFetchTime = 0;
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 минут
 
 // Проверка подключения к example.com:80 через SOCKS5
-async function checkSocks5(proxy, timeout = 5000) {
+async function fetchProxies(proxy, timeout = 5000) {
   return new Promise((resolve) => {
     const [host, port] = proxy.split(":");
     const socket = new net.Socket();
