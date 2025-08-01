@@ -1,13 +1,26 @@
 {
-  "name": "proxy-api",
+  "name": "socks5-proxy-api",
   "version": "1.0.0",
-  "description": "Simple proxy API server using Express",
+  "description": "SOCKS5 proxy list API with server-side checking and caching",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": [
+    "proxy",
+    "socks5",
+    "express",
+    "api",
+    "proxylist"
+  ],
+  "author": "Arkes",
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.8",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "p-limit": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }
