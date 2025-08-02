@@ -1,4 +1,3 @@
-
 const fetch = require('node-fetch');
 
 const WEB_SHARE_API = 'https://proxy.webshare.io/api/v2/proxy/list/';
