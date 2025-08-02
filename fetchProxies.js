@@ -41,3 +41,5 @@ if (!response.ok) {
     return [];
   }
 }
+
+module.exports = fetchProxies;
