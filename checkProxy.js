@@ -11,3 +11,5 @@ async function checkProxy(proxy) {
     return false;
   }
 }
+
+module.exports = checkProxy;
