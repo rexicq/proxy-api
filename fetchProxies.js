@@ -7,7 +7,7 @@ async function fetchProxies() {
   try {
     const response = await fetch(WEB_SHARE_API, {
       headers: {
-        'Authorization': `Token ${API_KEY}`,
+        'Authorization': `Token ${lq0gd3lcdlarbj47gc1d37fa1p3156cxlm5itn4t}`,
         'Content-Type': 'application/json',
       },
     });
