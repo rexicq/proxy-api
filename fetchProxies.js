@@ -1,13 +1,13 @@
 const fetch = require('node-fetch');
 
 const WEB_SHARE_API = 'https://proxy.webshare.io/api/v2/proxy/list/';
-const API_KEY = 'your_api_key_here'; // Замените на ваш API-ключ
+const API_KEY = 'lq0gd3lcdlarbj47gc1d37fa1p3156cxlm5itn4t'; // Замените на ваш API-ключ
 
 async function fetchProxies() {
   try {
     const response = await fetch(WEB_SHARE_API, {
       headers: {
-        'Authorization': `Token ${lq0gd3lcdlarbj47gc1d37fa1p3156cxlm5itn4t}`,
+        'Authorization': `Token ${API_KEY}`,
         'Content-Type': 'application/json',
       },
     });
