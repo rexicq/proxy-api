@@ -27,7 +27,7 @@ if (!response.ok) {
     // Массив прокси с логином и паролем
     const proxies = data.results.map(proxy => ({
       ip: proxy.proxy_address,
-      port: proxy.proxy_port,
+      port: proxy.port,
       username: proxy.username,
       password: proxy.password,
     }));
