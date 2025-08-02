@@ -1,11 +1,17 @@
+
 const fetch = require('node-fetch');
 
 const WEB_SHARE_API = 'https://proxy.webshare.io/api/v2/proxy/list/';
 const API_KEY = 'lq0gd3lcdlarbj47gc1d37fa1p3156cxlm5itn4t'; // Замените на ваш API-ключ
 
-async function fetchProxies() {
+async function fetchProxies(page = 1, pageSize = 100) {
   try {
-    const response = await fetch(WEB_SHARE_API, {
+    const url = new URL(WEB_SHARE_API);
+    url.searchParams.append('mode', 'direct');
+    url.searchParams.append('page', page.toString());
+    url.searchParams.append('page_size', pageSize.toString());
+
+    const response = await fetch(url.href, {
       headers: {
         'Authorization': `Token ${API_KEY}`,
         'Content-Type': 'application/json',
@@ -17,12 +23,17 @@ async function fetchProxies() {
     }
 
     const data = await response.json();
-    return data.results.map(proxy => ({
+
+    // Массив прокси с логином и паролем
+    const proxies = data.results.map(proxy => ({
       ip: proxy.proxy_address,
       port: proxy.proxy_port,
       username: proxy.username,
       password: proxy.password,
     }));
+
+    return proxies;
+
   } catch (error) {
     console.error('Ошибка при получении прокси:', error);
     return [];
