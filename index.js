@@ -1,27 +1,34 @@
 const express = require('express');
-const fetchProxies = require('./fetchProxies'); // Функция получения прокси
-const checkProxy = require('./checkProxy'); // Функция проверки прокси
-
+const fetchProxies = require('./fetchProxies');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/proxies', async (req, res) => {
+let cachedProxies = [];
+
+async function updateProxyCache() {
   try {
-    const proxies = await fetchProxies();
-    const workingProxies = [];
-
-    for (const proxy of proxies) {
-      if (await checkProxy(proxy)) {
-        workingProxies.push(proxy);
-      }
+    const newProxies = await fetchProxies();
+    if (newProxies.length > 0) {
+      cachedProxies = newProxies;
     }
+  } catch (err) {
+    // Можно сохранить ошибку для отдачи в API
+    cachedProxies = null;
+    cachedProxiesError = err.message || 'Unknown error';
+  }
+}
 
-    res.json(workingProxies);
-  } catch (error) {
-    res.status(500).json({ error: 'Ошибка при получении прокси' });
+updateProxyCache();
+setInterval(updateProxyCache, 5 * 60 * 1000);
+
+app.get('/proxies', (req, res) => {
+  if (cachedProxies === null) {
+    res.status(500).json({ error: cachedProxiesError || 'Failed to fetch proxies' });
+  } else {
+    res.json(cachedProxies.slice(0, 100));
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Сервер запущен на порту ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
