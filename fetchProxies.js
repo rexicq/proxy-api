@@ -17,9 +17,12 @@ async function fetchProxies(page = 1, pageSize = 100) {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`Ошибка API Webshare: ${response.status}`);
-    }
+  console.log(`Ошибка API Webshare: ${response.status} ${response.statusText}, тело: ${text}`);
+if (!response.ok) {
+  const text = await response.text(); // тело ошибки
+  console.error(`Ошибка API Webshare: ${response.status} ${response.statusText}, тело: ${text}`);
+  throw new Error(`Ошибка API Webshare: ${response.status}`);
+}
 
     const data = await response.json();
 
